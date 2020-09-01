@@ -1,5 +1,6 @@
 # github_search
-
+# fork修改
+已经改成循环模式，完成大循环以后会间隔1000秒，再次检索redis进行新一轮搜索。新的关键字可以通过redis管理面板添加.
 ### 介绍
 根据 keywords 搜索 github 上面的 repos, 并通过 web 展示
 
