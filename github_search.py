@@ -22,8 +22,8 @@ def search_github(keyword):
                 'star': repo['stargazers_count'],
                 'is_show': REPO_SHOW
             }
-            if REDIS.hsetnx('repos', repo_name, json.dumps(desc)):
-                print(repo_name)
+            REDIS.hset('repos', repo_name, json.dumps(desc))
+            print(repo_name)
         time.sleep(10)
 
 
@@ -36,8 +36,15 @@ if __name__ == '__main__':
         REDIS.set('keywords', ' '.join(keywords))
     else:
         keywords = keywords.decode('utf-8').split(' ')
-    #print(keywords)
+    print(keywords)
     while(True):
         for keyword in keywords:
             search_github(keyword)
+            #print("here")
+        keywords = REDIS.get('keywords')
+        if(keywords is None or len(keywords) == 0):
+            keywords = ['爬虫', 'spider', 'crawl','资料','电子书','题目','pdf','PDF','leetcode','签到','挂机','脚本','实用','spring','php','python','QQ','bot']
+            REDIS.set('keywords', ' '.join(keywords))
+        else:
+            keywords = keywords.decode('utf-8').split(' ')
         time.sleep(1000) 
